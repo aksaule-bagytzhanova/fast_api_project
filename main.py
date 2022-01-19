@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from schemas import Book
 
 
@@ -10,7 +10,7 @@ def home():
     return {'key': 'Hello'}
 
 
-@app.get('/{pk}')#/5/?q="ttt"
+@app.get('/{pk}')#/5/?q=ttt
 def get_item(pk: int, q: str = None):
     return {"key": pk, "q": q}
 
@@ -23,3 +23,8 @@ def get_user_item(pk: int, item: str):
 @app.post('/book')
 def create_book(item: Book):
     return item
+
+
+@app.get('/book')#/book/&g=qwert
+def get_book(q: str = Query(None, min_length=2, max_length=5, description="Search book")):
+    return q
