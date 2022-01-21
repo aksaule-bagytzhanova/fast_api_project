@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Query, Path
-from schemas import Book
+from fastapi import FastAPI, Query, Path, Body
+from schemas import Book, Author, Genre
 
 
 app = FastAPI()
@@ -21,8 +21,12 @@ def get_user_item(pk: int, item: str):
 
 
 @app.post('/book')
-def create_book(item: Book):
-    return item
+def create_book(item: Book, author: Author, quantity: int = Body(..., embed=True)):
+    return {"item": item, "author": author, 'quantity': quantity}
+
+@app.post('/auther')
+def create_author(author: Author):
+    return {"author": author}
 
 
 @app.get('/book')#/book/&g=qwert
