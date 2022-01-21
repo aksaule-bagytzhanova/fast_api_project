@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Query, Path, Body
-from schemas import Book, Author, Genre
+from schemas import Book, Author, Genre, BookOut
 
 
 app = FastAPI()
@@ -20,7 +20,7 @@ def get_user_item(pk: int, item: str):
     return {"user": pk, "item": item}
 
 
-@app.post('/book')
+@app.post('/book', response_model=Book, response_model_exclude_unset=True)  #, response_model_include={''})
 def create_book(item: Book, author: Author, quantity: int = Body(..., embed=True)):
     return {"item": item, "author": author, 'quantity': quantity}
 
